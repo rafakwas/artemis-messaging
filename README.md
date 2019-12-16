@@ -21,3 +21,5 @@ artemis create $HOME/eawbase-broker-master --user=developer --password=developer
 "$HOME/eawbase-broker-master/bin/artemis-service" start
 "$HOME/eawbase-broker-slave/bin/artemis-service" start
 ````
+
+7. Pobawić się aplikacjami producenta i konsumentow. Panel administracyjny web message brokerów dostępny jest na localhost:8161 i localhost:8162.
