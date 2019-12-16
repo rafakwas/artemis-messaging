@@ -23,7 +23,7 @@ public class BrokerListener {
     }
 
 
-    @JmsListener(destination = "${app.artemis.topic}", containerFactory = "artemisTopicConnectionFactory")
+    @JmsListener(destination = "${app.artemis.topic}", subscription = "KONSUMENT2_SUBSCRIPTION", containerFactory = "artemisTopicConnectionFactory")
     public void processTopicMessage(TextMessage message) {
         try {
             log.info("*********************** TOPIC MESSAGE RECEIVED: " + message.getText());

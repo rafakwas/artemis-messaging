@@ -47,13 +47,26 @@ public class ArtemisClusterConfig {
     }
 
     @Bean
-    // https://stackoverflow.com/questions/30291067/jmslistener-usage-for-publish-subscribe-topic
     public JmsListenerContainerFactory<?> artemisTopicConnectionFactory(ConnectionFactory connectionFactory,
                                                                             DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        configurer.configure(factory, connectionFactory);
+        factory.setConnectionFactory(connectionFactory);
+        factory.setClientId(clientId);
+        factory.setSubscriptionDurable(true);
         factory.setPubSubDomain(true);
+        configurer.configure(factory, connectionFactory);
         return factory;
     }
+
+//    @Bean
+//    // https://stackoverflow.com/questions/30291067/jmslistener-usage-for-publish-subscribe-topic
+//    public JmsListenerContainerFactory<?> artemisTopicConnectionFactory(ConnectionFactory connectionFactory,
+//                                                                        DefaultJmsListenerContainerFactoryConfigurer configurer) {
+//        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+//        configurer.configure(factory, connectionFactory);
+//        factory.setPubSubDomain(true);
+//        return factory;
+//    }
+
 
 }

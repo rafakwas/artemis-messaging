@@ -13,10 +13,19 @@ import javax.jms.TextMessage;
 @RequiredArgsConstructor
 public class BrokerListener {
 
-    @JmsListener(destination = "${app.artemis.queue}", containerFactory = "artemisQueueConnectionFactory")
-    public void processQueueMessage(TextMessage message) {
+    @JmsListener(destination = "${app.artemis.queue-nondurable}", containerFactory = "artemisQueueConnectionFactory")
+    public void processNondurableQueueMessage(TextMessage message) {
         try {
-            log.info("*********************** QUEUE MESSAGE RECEIVED: " + message.getText());
+            log.info("*********************** NONDURABLE QUEUE MESSAGE RECEIVED: " + message.getText());
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @JmsListener(destination = "${app.artemis.queue-durable}", containerFactory = "artemisQueueConnectionFactory")
+    public void processDurableQueueMessage(TextMessage message) {
+        try {
+            log.info("*********************** DURABLE QUEUE MESSAGE RECEIVED: " + message.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -27,6 +36,15 @@ public class BrokerListener {
     public void processTopicMessage(TextMessage message) {
         try {
             log.info("*********************** TOPIC MESSAGE RECEIVED: " + message.getText());
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @JmsListener(destination = "${app.artemis.topic-second}", subscription = "KONSUMENT1_SECOND_SUBSCRIPTION", containerFactory = "artemisTopicSecondConnectionFactory")
+    public void processSecondTopicMessage(TextMessage message) {
+        try {
+            log.info("*********************** SECOND TOPIC MESSAGE RECEIVED: " + message.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }

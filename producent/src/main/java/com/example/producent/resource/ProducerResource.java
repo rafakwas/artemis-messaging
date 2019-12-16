@@ -37,4 +37,11 @@ public class ProducerResource {
         messageService.sendTopic(request.getMessage());
     }
 
+    @PostMapping(path = "topic-second")
+    public void testSubscribeSecond(@RequestBody MessageRequest request) throws JMSException {
+        log.info("Sending to topic. Message: " + request);
+        messageService.sendTopicSecond(request.getMessage());
+    }
+
+
 }

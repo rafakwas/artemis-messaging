@@ -1,8 +1,8 @@
 package com.example.producent.service;
 
 import com.example.producent.configuration.ArtemisProperties;
+import lombok.RequiredArgsConstructor;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +10,11 @@ import javax.annotation.PostConstruct;
 import javax.jms.*;
 
 @Service
+@RequiredArgsConstructor
 public class MessageService {
 
-    @Autowired
-    private ArtemisProperties artemisProperties;
-    @Autowired
-    private MessageConverter messageConverter;
+    private final ArtemisProperties artemisProperties;
+    private final MessageConverter messageConverter;
 
     private ActiveMQConnectionFactory connectionFactory;
 
@@ -36,6 +35,10 @@ public class MessageService {
 
     public void sendTopic(String message) throws JMSException {
         sendMessageToTopic(artemisProperties.getTopic(), message);
+    }
+
+    public void sendTopicSecond(String message) throws JMSException {
+        sendMessageToTopic(artemisProperties.getTopicSecond(), message);
     }
 
     private void sendMessageToQueue(String destinationName, String text) throws JMSException {
@@ -76,7 +79,6 @@ public class MessageService {
 
             Topic topic = session.createTopic(destinationName);
             Message msg = session.createTextMessage(text);
-
             TopicPublisher publisher = session.createPublisher(topic);
             publisher.publish(msg);
 

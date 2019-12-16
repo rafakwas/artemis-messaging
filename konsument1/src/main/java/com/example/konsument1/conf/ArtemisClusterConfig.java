@@ -59,4 +59,17 @@ public class ArtemisClusterConfig {
         return factory;
     }
 
+    @Bean
+    public JmsListenerContainerFactory<?> artemisTopicSecondConnectionFactory(ConnectionFactory connectionFactory,
+                                                                        DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setClientId("konsument-1-second");
+        factory.setSubscriptionDurable(true);
+        factory.setPubSubDomain(true);
+        configurer.configure(factory, connectionFactory);
+        return factory;
+    }
+
+
 }

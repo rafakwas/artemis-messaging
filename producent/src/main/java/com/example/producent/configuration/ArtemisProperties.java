@@ -18,6 +18,7 @@ public class ArtemisProperties {
     private String queue;
     private String queueDurable;
     private String topic;
+    private String topicSecond;
     private String topicDurable;
     private String clientId;
 }
